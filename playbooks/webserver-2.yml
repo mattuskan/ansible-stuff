@@ -1,0 +1,39 @@
+---
+ - hosts: webserver
+   become: true
+   tasks:
+    - name: install apache and related stuff
+      yum:
+        name: "{{ packages }}"
+      vars:
+        packages:
+        - httpd
+        - python-pip
+        - python-virtualenv
+
+    - name: install mod wsgi and restart
+      yum:
+        name: mod_wsgi
+      notify: restart httpd
+
+    - name: start httpd 
+      service: name=httpd state=started enabled=yes
+
+    - name: copy demo app source
+      copy: src=demo/app/ dest=/var/www/demo mode=0755
+      notify: restart httpd
+
+    - name: copy httpd virtual host config
+      copy: src=demo/demo.conf dest=/etc/httpd/conf.d mode=0755
+      notify: restart httpd
+
+    - name: set up python virtual env
+      pip: requirements=/var/www/demo/requirements.txt virtualenv=/var/www/demo/.venv
+    
+
+   handlers:
+    - name: restart httpd
+      service: name=httpd state=restarted
+    
+
+     
