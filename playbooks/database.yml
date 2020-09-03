@@ -7,7 +7,7 @@
      - name: start mysql 
        service: name=mysql state=started enabled=yes
      - name: ensure mysql listening 
-       lineinfile: dest=/etc/mysql/mysql.conf.d/mysql.conf regexp=^bind-address
+       lineinfile: dest=/etc/mysql/mysql.conf.d/mysqld.cnf regexp=^bind-address
                    line="bind-address = 0.0.0.0"
        notify: restart mysql
 
