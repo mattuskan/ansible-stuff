@@ -8,7 +8,6 @@
       vars:
         packages:
         - httpd
-        - mod_wsgi
         - python-pip
         - python-virtualenv
         - MySQL-python
@@ -17,7 +16,8 @@
       service: name=httpd state=started enabled=yes
 
     - name: ensure mod_wsgi enabled
-      apache2_module: state=present name=mod_wsgi
+      yum:
+        name: mod_wsgi
       notify: restart httpd
 
    handlers:
