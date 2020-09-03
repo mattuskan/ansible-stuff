@@ -6,3 +6,11 @@
        apt: name=mysql-server state=present update_cache=yes
      - name: start mysql 
        service: name=mysql state=started enabled=yes
+     - name: ensure mysql listening 
+       lineinfile: dest=/etc/mysql/mysql.conf.d/mysql.conf regexp=^bind-address
+                   line="bind-address = 0.0.0.0"
+       notify: restart mysql
+
+   handlers:
+    - name: restart mysql
+      service: name=mysql state=restarted
