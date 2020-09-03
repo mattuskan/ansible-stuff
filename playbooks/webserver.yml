@@ -20,6 +20,14 @@
         name: mod_wsgi
       notify: restart httpd
 
+    - name: copy demo app source
+      copy: src=demo/app/ dest=/var/www/demo mode=0755
+      notify: restart httpd
+
+    - name: copy apache virtual host config
+      copy: src=demo/demo.conf dest=/etc/apache2/sites-available mode=0755
+      notify: restart httpd
+
    handlers:
     - name: restart httpd
       service: name=httpd state=restarted
