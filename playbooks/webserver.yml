@@ -25,7 +25,7 @@
       notify: restart httpd
 
     - name: copy apache virtual host config
-      copy: src=demo/demo.conf dest=/etc/apache2/sites-available mode=0755
+      copy: src=demo/demo.conf dest=/etc/httpd/conf.d/ mode=0755
       notify: restart httpd
 
    handlers:
