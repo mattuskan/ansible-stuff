@@ -23,6 +23,6 @@
       file: path=/etc/nginx/sites-available/demo dest=/etc/nginx/sites-enabled/demo state=link
       notify: restart nginx
     
-  handlers:
-   - name: restart nginx
-     servic: name=nginx state=restarted          
+   handlers:
+    - name: restart nginx
+      service: name=nginx state=restarted          
