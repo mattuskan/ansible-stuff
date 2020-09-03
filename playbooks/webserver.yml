@@ -28,6 +28,12 @@
       copy: src=demo/demo.conf dest=/etc/httpd/conf.d/ mode=0755
       notify: restart httpd
 
+    - name: configure selinux to allow outgoing httpd -> db connections
+      seboolean:
+        name: httpd_can_network_connect_db
+        state: yes
+        persistent: yes
+
    handlers:
     - name: restart httpd
       service: name=httpd state=restarted
