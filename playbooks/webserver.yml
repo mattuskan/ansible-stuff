@@ -11,7 +11,7 @@
         - mod_wsgi
         - python-pip
         - python-virtualenv
-        - mod_rewrite
+        - MySQL-python
 
     - name: start httpd 
       service: name=httpd state=started enabled=yes
