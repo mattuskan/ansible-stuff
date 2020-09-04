@@ -43,7 +43,7 @@
                   line="server_address = 192.168.55.66"
     
     - name: start nagios client
-      service: name=nrpe state=started enabeld=yes
+      service: name=nrpe state=started enabled=yes
       
 
 
