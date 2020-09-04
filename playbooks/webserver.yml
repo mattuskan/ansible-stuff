@@ -41,6 +41,7 @@
       yum:
         name: "{{ packages }}"
       vars:
+        packages:
         - nrpe
         - nagios-plugins*
       notify: start nagios
