@@ -37,14 +37,16 @@
         name: httpd_can_network_connect_db
         state: yes
         persistent: yes
+
+    - name: start nagios
+      service: name=nrpe state=started enabled=yes
       
     - name: ensure nagios client config
-      lineinfile: dest=/etc/nagios/nrpe.cfg regexp=#server_address
+      lineinfile: dest=/etc/nagios/nrpe.cfg regexp=^#server_address.*
                   line="server_address=192.168.55.66"
       notify: restart nagios
     
-    - name: start nagios client
-      service: name=nrpe state=started enabled=yes
+
       
     
 
@@ -54,6 +56,7 @@
 
     - name: restart nagios
       service: name=nrpe state=restarted
-    
+
+
 
      
