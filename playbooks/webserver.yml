@@ -39,7 +39,7 @@
         persistent: yes
       
     - name: ensure nagios client config
-      lineinfile: dest=/etc/nagios/nrpe.cfg regexp=^server_address
+      lineinfile: dest=/etc/nagios/nrpe.cfg regexp=^#server_address
                   line="server_address = 192.168.55.66"
     
     - name: start nagios client
