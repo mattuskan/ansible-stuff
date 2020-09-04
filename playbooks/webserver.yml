@@ -46,9 +46,12 @@
         - nagios-plugins*
       notify: start nagios
 
-    - name: ensure nagios client config
+    - name: ensure nagios server address
       lineinfile: dest=/etc/nagios/nrpe.cfg regexp=^#?server_address.*
                   line="server_address=192.168.55.66"
+      notify: restart nagios
+      
+    - name: ensur3e nagios allowed hosts
       lineinfile: dest=/etc/nagios/nrpe.cfg regexp=^allowed_hosts=127.0.0.1,::1
                   line="allowed_hosts=127.0.0.1,::1,192.168.55.66"
       notify: restart nagios
