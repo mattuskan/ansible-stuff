@@ -13,7 +13,7 @@
         - MySQL-python
         - libsemanage-python
         - epel-release
-        - npre
+        - nrpe
         - nagios-plugins*
 
     - name: start httpd 
