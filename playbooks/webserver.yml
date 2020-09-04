@@ -13,8 +13,7 @@
         - MySQL-python
         - libsemanage-python
         - epel-release
-        - nrpe
-        - nagios-plugins*
+
 
     - name: start httpd 
       service: name=httpd state=started enabled=yes
@@ -37,25 +36,29 @@
         name: httpd_can_network_connect_db
         state: yes
         persistent: yes
+    
+    - name: ensure nagios install
+      yum:
+        name: "{{ packages }}"
+      vars:
+        - nrpe
+        - nagios-plugins*
+      notify: start nagios
 
-    - name: start nagios
-      service: name=nrpe state=started enabled=yes
-      
     - name: ensure nagios client config
       lineinfile: dest=/etc/nagios/nrpe.cfg regexp=^#?server_address.*
                   line="server_address=192.168.55.66"
       notify: restart nagios
     
-
-      
-    
-
    handlers:
     - name: restart httpd
       service: name=httpd state=restarted
 
     - name: restart nagios
       service: name=nrpe state=restarted
+
+    - name: start nagios
+      service: name=nrpe state=started enabled=yes
 
 
 
