@@ -5,14 +5,14 @@
     - name: verify nginx service
       command: service nginx status
 
-- hosts: webserver
-  become: true
-  tasks:
+ - hosts: webserver
+   become: true
+   tasks:
     - name: verify httpd service
       command: service httpd status
 
-- hosts: database
-  become: true
-  tasks:
+ - hosts: database
+   become: true
+   tasks:
     - name: verify mysql service
       command: service mysql status
