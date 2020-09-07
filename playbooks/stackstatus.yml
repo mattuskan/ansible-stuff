@@ -20,5 +20,27 @@
    tasks:
     - name: verify mysql service
       command: service mysql status
-    - name: verify mysql is listening on port 80
+    - name: verify mysql is listening on port 3306
       wait_for: port=3306 timeout=1
+
+ - hosts: control
+   tasks:
+    - name: verify end-to-end reponse
+      uri: url=http://{{item}} return_content=yes
+      with_items: goups.loadbalancers
+      register: lb_index
+
+    - fail: msg="index failed to return content"
+      when: "'Hello, from sunny' not in item.content"
+      with_items: "{{lb_index.results}}"
+
+ - hosts: loadbalancers
+   tasks:
+    - name: verify backend reponse
+      uri: url=http://{{item}} return_content=yes
+      with_items: goups.webserver
+      register: app_index
+   
+    - fail: msg="index failed to return content"
+      when: "'Hello, from sunny {{item.item}}!' not in item.content"
+      with_items: "{{app_index.results}}"
