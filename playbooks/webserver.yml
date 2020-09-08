@@ -24,7 +24,7 @@
       notify: restart httpd
 
     - name: copy demo app source
-      copy: src=demo/app/ dest=/var/www/demo mode=0755
+      copy: src=demo/app/ dest=/var/www/demo mode=0755 backup=yes force=yes
       notify: restart httpd
 
     - name: copy apache virtual host config
