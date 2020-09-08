@@ -56,9 +56,9 @@
 
     - name: verify backend db reponse
       uri: url=http://{{item}}/db return_content=yes
-      with_items: "{{ groups['loadbalancers'] }}"
+      with_items: "{{ groups['webserver'] }}"
       register: app_db
 
     - fail: msg="index failed to return content"
-      when: "'Database Connected from {{item.item}}' not in item.content"
+      when: "'Database Connected from {{item.item}}!' not in item.content"
       with_items: "{{app_db.results}}"
