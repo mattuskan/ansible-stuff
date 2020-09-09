@@ -1,2 +1,18 @@
 ---
-# tasks file for demo_app
+- name: Install Python app and support Packages
+  yum:
+    name: "{{ packages }}"
+  vars:
+    packages:
+      - python-pip
+      - python-virtualenv
+      - MySQL-python
+      - libsemanage-python
+
+- name: copy demo app source
+  copy: src=demo/app/ dest=/var/www/demo mode=0755 backup=yes force=yes
+  notify: restart httpd
+
+- name: copy apache virtual host config
+  copy: src=demo/demo.conf dest=/etc/httpd/conf.d/ mode=0755
+  notify: restart httpd

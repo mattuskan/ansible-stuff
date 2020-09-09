@@ -1,2 +1,9 @@
 ---
-# handlers file for httpd
+- name: restart httpd
+  service: name=httpd state=restarted
+  
+- name: restart nagios
+  service: name=nrpe state=restarted
+
+- name: start nagios
+  service: name=nrpe state=started enabled=yes

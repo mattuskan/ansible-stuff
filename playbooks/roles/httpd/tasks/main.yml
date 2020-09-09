@@ -1,2 +1,43 @@
 ---
-# tasks file for httpd
+- name: Install System and Webserver Components
+  yum:
+    name: "{{ packages }}"
+  vars:
+    packages:
+      - httpd
+      - epel-release
+
+
+
+- name: ensure mod_wsgi enabled
+  yum:
+    name: mod_wsgi
+    notify: restart httpd
+
+- name: configure selinux to allow outgoing httpd -> db connections
+  seboolean:
+    name: httpd_can_network_connect_db
+    state: yes
+    persistent: yes
+
+- name: start httpd
+  service: name=httpd state=started enabled=yes
+
+- name: ensure nagios install
+  yum:
+    name: "{{ packages }}"
+  vars:
+    packages:
+      - nrpe
+      - nagios-plugins*
+  notify: start nagios
+
+- name: ensure nagios server address
+  lineinfile: dest=/etc/nagios/nrpe.cfg regexp=^#?server_address.*
+              line="server_address=192.168.55.66"
+  notify: restart nagios
+
+- name: ensur3e nagios allowed hosts
+  lineinfile: dest=/etc/nagios/nrpe.cfg regexp=^allowed_hosts=127.0.0.1,::1
+              line="allowed_hosts=127.0.0.1,::1,192.168.55.66"
+  notify: restart nagios
