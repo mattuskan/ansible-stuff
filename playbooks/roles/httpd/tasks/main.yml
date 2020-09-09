@@ -7,12 +7,10 @@
       - httpd
       - epel-release
 
-
-
 - name: ensure mod_wsgi enabled
   yum:
     name: mod_wsgi
-    notify: restart httpd
+  notify: restart httpd
 
 - name: configure selinux to allow outgoing httpd -> db connections
   seboolean:
